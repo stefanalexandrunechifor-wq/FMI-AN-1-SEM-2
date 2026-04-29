@@ -95,23 +95,40 @@ void printList(node* head) {
     cout << "NULL" << "\n";
 }
 void find_cycle(node* head,int &lungime, node* &primul) {
-    int v[100];
-    int cnt=0;
-    node* temp=head;
-    while (v[cnt] !=1) {
-        v[cnt]=1;
-        temp = temp->next;
-        cnt++;
+    if (head == nullptr || head->next == nullptr) {
+        lungime = 0;
+        primul = nullptr;
+        return;
     }
-    int cnt1=1;
-    while (v[cnt] !=2) {
-        v[cnt]=2;
-        temp = temp->next;
-        cnt++;
-        cnt1++;
+
+    node* lent = head;
+    node* rapid = head;
+    bool exista_ciclu = false;
+    while (rapid != nullptr && rapid->next != nullptr) {
+        lent = lent->next;          
+        rapid = rapid->next->next; 
+        if (lent == rapid) {        
+            exista_ciclu = true;
+            break;
+        }
     }
-    primul=temp;
-    lungime=cnt1;
+    if (!exista_ciclu) {
+        lungime = 0;
+        primul = nullptr;
+        return;
+    }
+    node* pornire = head;
+    while (pornire != lent) {
+        pornire = pornire->next;
+        lent = lent->next;
+    }
+    primul = pornire;
+    lungime = 1;
+    node* temp = primul->next;
+    while (temp != primul) {
+        lungime++;
+        temp = temp->next;
+    }
 }
 int main() {
     node* head = nullptr;
