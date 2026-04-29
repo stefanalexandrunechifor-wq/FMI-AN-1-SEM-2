@@ -9,6 +9,7 @@ void insertEnd(node* &head, int data) {
     new_node->data = data;
     new_node->next = nullptr;
     if (head == nullptr) {
+        head = new_node;
         return;
     }
     node* temp = head;
@@ -19,6 +20,11 @@ void insertEnd(node* &head, int data) {
 }
 void deletionEnd(node* &head) {
     if (head == nullptr) {
+        return;
+    }
+    if (head->next == nullptr) {
+        delete head;
+        head = nullptr;
         return;
     }
     node* temp = head;
@@ -39,6 +45,9 @@ void insertStart(node* &head, int data) {
     head = new_node;
 }
 void deletionStart(node* &head) {
+    if (head == nullptr) {
+        return;
+    }
     node* temp = head;
     head = head->next;
     delete temp;
@@ -73,10 +82,10 @@ void deletion(node* head, int position) {
 }
 node* getElementByValue(node* head, int data) {
     node* temp = head;
-    while (temp->data!=data) {
-        temp=temp->next;
+    while (temp != nullptr && temp->data != data) {
+        temp = temp->next;
     }
-    if (temp->data==data) return temp;
+    return temp;
 }
 node* getElementByIndex(node* head, int position) {
     node* temp = head;
